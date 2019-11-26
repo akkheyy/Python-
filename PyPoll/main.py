@@ -1,12 +1,12 @@
 import os
 import csv
-import collections as ct
 
 csvpath = os.path.join('election_data.csv')
 
 votes = 0
 candidate_list = []
 candidate_count = []
+candidate_percent = []
 
 with open("election_data.csv", "r") as in_file:
     csv_reader = csv.reader(in_file)
@@ -22,13 +22,17 @@ with open("election_data.csv", "r") as in_file:
         else:
             candidate_list.append(candidate)
             candidate_count.append(1)
+    
+    for e in range(len(candidate_list)):
+        vote_percent = round((candidate_count[e]/votes) * 100, 2)
+        candidate_percent.append(vote_percent)
 
-
-for e in range(len(candidate_list)):
-    print(f'{candidate_list[e]} : {candidate_count[e]}')
+    winning_candidate = max(candidate_list, key = candidate_list.count)
 
 print("Total Votes: " + str(votes))
-    
+for e in range(len(candidate_list)):
+    print(f'{candidate_list[e]} : {candidate_count[e]} votes : {candidate_percent[e]}%')
+print("Winner: " + str(winning_candidate))
 
 # -------------------------------- working-ish ^
 #The total number of votes cast
